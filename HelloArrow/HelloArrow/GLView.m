@@ -7,6 +7,11 @@
 //
 
 #import "GLView.h"
+#import <QuartzCore/QuartzCore.h>
+
+@interface GLView()
+@property (nonatomic, strong) CADisplayLink *displayLink;
+@end
 
 @implementation GLView
 
@@ -14,6 +19,7 @@
 
 + (Class)layerClass
 {
+    // We override the layerClass method to return an OpenGL friendly layer.
     return [CAEAGLLayer class];
 }
 
@@ -22,67 +28,52 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        // Create a GL-friendly layer and set it to opaque.
-        // (This tells Quartz that we don't need it to handle transparency for this layer).
-        CAEAGLLayer *eaglLayer = (CAEAGLLayer *)super.layer;
-        [eaglLayer setOpaque:YES];
+        // Create the rendering engine
+        CAEAGLLayer *layer = (CAEAGLLayer *)super.layer;
+        self.renderingEngine = [[RenderingEngine alloc] initWithLayer:layer andViewportSize:self.bounds.size];
         
-        // Create our OpenGL context and make it current.
-        BOOL contextSetupSucceeded = NO;
-        self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-        if (self.context) {
-            
-            // After this call, any further OpenGL calls in this thread will be directed
-            // to this context.
-            contextSetupSucceeded = [EAGLContext setCurrentContext:self.context];
-        }
+        // Setup a displayLink to invoke renderView: every time the view refreshes.
+        self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(renderView:)];
+        [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
         
-        if (!contextSetupSucceeded) {
-            NSLog(@"Setup of the EAGLContext did not succeed.");
-            return nil;
-        }
+        // Register for device orientation notifications
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(deviceDidRotate:)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
         
-        //
-        // OpenGL initialization
-        //
-        
-        // OpenGL uses GLuints (just unsigned ints) to represent many of the objects that
-        // it manages.
-        GLuint framebuffer, renderbuffer;
-        
-        // Renderbuffer: 2D surface filled with data of a particular kind (in our case, color)
-        glGenRenderbuffers(1, &renderbuffer);
-        
-        // Framebuffer: A bundle of renderbuffers.
-        glGenFramebuffers(1, &framebuffer);
-        
-        // Bind our buffers to the OpenGL pipeline. Binding allows subsequent OpenGL calls
-        // to interact with these objects.
-        glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-        
-        // Allocate storage for the renderbuffer in our graphics context.
-        [self.context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
-        
-        // Attach the framebuffer to the renderbuffer
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
-        
-        glViewport(0, 0, self.bounds.size.width, self.bounds.size.height);
-        
-        [self renderView];
+        self.timestamp = CACurrentMediaTime();
+
+        // Kickoff rendering
+        [self renderView:nil];
     }
     
     return self;
 }
 
-- (void)renderView
+- (void)renderView:(CADisplayLink *)displayLink
 {
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    if (displayLink != nil) {
+        float elapsedSeconds = displayLink.timestamp - self.timestamp;
+        self.timestamp = displayLink.timestamp;
+        
+        [self.renderingEngine updateAnimationWithTimestep:elapsedSeconds];
+    }
+    
+    [self.renderingEngine render];
     
     // Rather than drawing directly to the screen, most OpenGL programs render to a buffer
     // that is then atomically presented to the screen.
-    [self.context presentRenderbuffer:GL_RENDERBUFFER];
+    [self.renderingEngine.context presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+- (void)deviceDidRotate:(NSNotification *)notification
+{
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    
+    [self.renderingEngine handleRotationToOrientation:orientation];
+    [self renderView:nil];
 }
 
 
@@ -90,11 +81,11 @@
 
 - (void)dealloc
 {
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.displayLink invalidate];
     
-    self.context = nil;
+    self.renderingEngine = nil;
+    self.displayLink = nil;
 }
 
 @end

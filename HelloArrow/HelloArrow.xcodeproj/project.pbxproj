@@ -19,6 +19,7 @@
 		65EC925F16E560A9001F15EE /* GLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EC925E16E560A9001F15EE /* GLView.m */; };
 		65EC926416E5612C001F15EE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EC926016E56116001F15EE /* QuartzCore.framework */; };
 		65EC926516E56130001F15EE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EC926216E5611E001F15EE /* OpenGLES.framework */; };
+		65EC926B16E57784001F15EE /* RenderingEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EC926A16E57784001F15EE /* RenderingEngine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		65EC925E16E560A9001F15EE /* GLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLView.m; sourceTree = "<group>"; };
 		65EC926016E56116001F15EE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		65EC926216E5611E001F15EE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		65EC926916E57784001F15EE /* RenderingEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingEngine.h; sourceTree = "<group>"; };
+		65EC926A16E57784001F15EE /* RenderingEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderingEngine.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,8 @@
 				65EC925016E55FFD001F15EE /* AppDelegate.m */,
 				65EC925D16E560A9001F15EE /* GLView.h */,
 				65EC925E16E560A9001F15EE /* GLView.m */,
+				65EC926916E57784001F15EE /* RenderingEngine.h */,
+				65EC926A16E57784001F15EE /* RenderingEngine.m */,
 				65EC924716E55FFD001F15EE /* Supporting Files */,
 			);
 			path = HelloArrow;
@@ -180,6 +185,7 @@
 				65EC924D16E55FFD001F15EE /* main.m in Sources */,
 				65EC925116E55FFD001F15EE /* AppDelegate.m in Sources */,
 				65EC925F16E560A9001F15EE /* GLView.m in Sources */,
+				65EC926B16E57784001F15EE /* RenderingEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

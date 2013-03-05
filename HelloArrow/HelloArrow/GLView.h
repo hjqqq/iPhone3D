@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
-#import <OpenGLES/EAGL.h>
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
+#import "RenderingEngine.h"
 
 @interface GLView : UIView
-@property (nonatomic, strong) EAGLContext *context;
+@property (nonatomic, strong) RenderingEngine *renderingEngine;
+@property (nonatomic) float timestamp;
 
-- (void)renderView;
+- (void)renderView:(CADisplayLink *)displayLink;
+- (void)deviceDidRotate:(NSNotification *)notification;
 
 @end
