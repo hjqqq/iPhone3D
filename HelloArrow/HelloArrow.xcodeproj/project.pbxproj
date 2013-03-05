@@ -20,6 +20,9 @@
 		65EC926416E5612C001F15EE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EC926016E56116001F15EE /* QuartzCore.framework */; };
 		65EC926516E56130001F15EE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EC926216E5611E001F15EE /* OpenGLES.framework */; };
 		65EC926B16E57784001F15EE /* RenderingEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EC926A16E57784001F15EE /* RenderingEngine.m */; };
+		65EC927116E58CE5001F15EE /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EC926F16E58CD9001F15EE /* GLKit.framework */; };
+		65EC927416E5901C001F15EE /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 65EC927216E5901C001F15EE /* SimpleFragment.glsl */; };
+		65EC927516E5901C001F15EE /* SimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 65EC927316E5901C001F15EE /* SimpleVertex.glsl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		65EC926216E5611E001F15EE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		65EC926916E57784001F15EE /* RenderingEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingEngine.h; sourceTree = "<group>"; };
 		65EC926A16E57784001F15EE /* RenderingEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderingEngine.m; sourceTree = "<group>"; };
+		65EC926F16E58CD9001F15EE /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		65EC927216E5901C001F15EE /* SimpleFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleFragment.glsl; path = Shaders/SimpleFragment.glsl; sourceTree = "<group>"; };
+		65EC927316E5901C001F15EE /* SimpleVertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleVertex.glsl; path = Shaders/SimpleVertex.glsl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65EC927116E58CE5001F15EE /* GLKit.framework in Frameworks */,
 				65EC926516E56130001F15EE /* OpenGLES.framework in Frameworks */,
 				65EC926416E5612C001F15EE /* QuartzCore.framework in Frameworks */,
 				65EC924116E55FFD001F15EE /* UIKit.framework in Frameworks */,
@@ -80,6 +87,7 @@
 		65EC923F16E55FFD001F15EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65EC926F16E58CD9001F15EE /* GLKit.framework */,
 				65EC926216E5611E001F15EE /* OpenGLES.framework */,
 				65EC926016E56116001F15EE /* QuartzCore.framework */,
 				65EC924016E55FFD001F15EE /* UIKit.framework */,
@@ -98,6 +106,7 @@
 				65EC925E16E560A9001F15EE /* GLView.m */,
 				65EC926916E57784001F15EE /* RenderingEngine.h */,
 				65EC926A16E57784001F15EE /* RenderingEngine.m */,
+				65EC926C16E57E44001F15EE /* Shaders */,
 				65EC924716E55FFD001F15EE /* Supporting Files */,
 			);
 			path = HelloArrow;
@@ -115,6 +124,15 @@
 				65EC925616E55FFD001F15EE /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		65EC926C16E57E44001F15EE /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				65EC927216E5901C001F15EE /* SimpleFragment.glsl */,
+				65EC927316E5901C001F15EE /* SimpleVertex.glsl */,
+			);
+			name = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +190,8 @@
 				65EC925316E55FFD001F15EE /* Default.png in Resources */,
 				65EC925516E55FFD001F15EE /* Default@2x.png in Resources */,
 				65EC925716E55FFD001F15EE /* Default-568h@2x.png in Resources */,
+				65EC927416E5901C001F15EE /* SimpleFragment.glsl in Resources */,
+				65EC927516E5901C001F15EE /* SimpleVertex.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
