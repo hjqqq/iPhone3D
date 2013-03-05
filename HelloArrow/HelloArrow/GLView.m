@@ -52,6 +52,9 @@
     return self;
 }
 
+
+#pragma mark - DisplayLink Synchronization
+
 - (void)renderView:(CADisplayLink *)displayLink
 {
     if (displayLink != nil) {
@@ -68,12 +71,17 @@
     [self.renderingEngine.context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
+
+#pragma mark - Orientation
+
 - (void)deviceDidRotate:(NSNotification *)notification
 {
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     
-    [self.renderingEngine handleRotationToOrientation:orientation];
-    [self renderView:nil];
+    if (orientation != UIDeviceOrientationUnknown) {
+        [self.renderingEngine handleRotationToOrientation:orientation];
+        [self renderView:nil];
+    }
 }
 
 

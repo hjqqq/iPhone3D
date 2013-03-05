@@ -33,9 +33,7 @@ const Vertex Vertices[] = {
 @property (nonatomic) GLuint framebuffer;
 @property (nonatomic) GLuint renderbuffer;
 
-- (GLuint)buildProgramWithVertexShaderName:(NSString *)vertexShaderName
-                     andFragmentShaderName:(NSString *)fragmentShaderName;
-
+- (GLuint)buildProgramWithVertexShaderName:(NSString *)vertexShaderName andFragmentShaderName:(NSString *)fragmentShaderName;
 - (GLuint)compileShaderWithName:(NSString *)shaderName andType:(GLenum)shaderType;
 
 - (void)applyOrthoWithMaxX:(float)maxX andMaxY:(float)maxY;
@@ -44,6 +42,9 @@ const Vertex Vertices[] = {
 @end
 
 @implementation RenderingEngine
+
+
+#pragma mark - Setup
 
 - (id)initWithLayer:(CAEAGLLayer *)eaglLayer andViewportSize:(CGSize)size
 {
@@ -100,7 +101,7 @@ const Vertex Vertices[] = {
         
         // Initialize rotation
         [self handleRotationToOrientation:UIDeviceOrientationPortrait];
-        self.currentRotationAngle = self.desiredRotationAngle;
+        self.desiredRotationAngle = 0.0;
     }
     
     return self;
@@ -169,7 +170,6 @@ const Vertex Vertices[] = {
 }
 
 
-
 #pragma mark - Rendering & Animation
 
 - (void)render
@@ -192,6 +192,7 @@ const Vertex Vertices[] = {
     glVertexAttribPointer(positionSlot, 2, GL_FLOAT, GL_FALSE, stride, pCoords);
     glVertexAttribPointer(colorSlot, 4, GL_FLOAT, GL_FALSE, stride, pColors);
     
+    // Submit our vertex data to the pipeline for drawing
     GLsizei vertexCount = sizeof(Vertices)/sizeof(Vertex);
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
     
@@ -269,13 +270,13 @@ const Vertex Vertices[] = {
             self.desiredRotationAngle = 270;
             break;
         case UIDeviceOrientationPortrait:
-            self.desiredRotationAngle = 180;
+            self.desiredRotationAngle = 0;
             break;
         case UIDeviceOrientationLandscapeRight:
             self.desiredRotationAngle = 90;
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            self.desiredRotationAngle = 0;
+            self.desiredRotationAngle = 180;
             break;
         default:
             self.desiredRotationAngle = 0;
